@@ -34,3 +34,9 @@ show columns from usuario;
 show columns from ordem;
 
 select * from usuario;
+
+select * from ordem;
+
+
+ALTER TABLE usuario ADD COLUMN role VARCHAR(55);
+

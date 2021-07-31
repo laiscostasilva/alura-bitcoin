@@ -82,4 +82,19 @@ public class Ordem {
     this.status = status;
   }
 
+  /**
+   * @return String return the status
+   */
+  public Long getUserId() {
+    return userId;
+  }
+
+  /**
+   * @param status the status to set
+   */
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
+  
+
 }

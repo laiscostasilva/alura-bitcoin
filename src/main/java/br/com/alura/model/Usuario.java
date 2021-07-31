@@ -5,9 +5,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.security.jpa.Password;
+import io.quarkus.security.jpa.Roles;
+import io.quarkus.security.jpa.UserDefinition;
+import io.quarkus.security.jpa.Username;
 
 @Entity
+@UserDefinition
 public class Usuario extends PanacheEntityBase {
 
   @Id
@@ -18,9 +24,14 @@ public class Usuario extends PanacheEntityBase {
 
   private String cpf;
 
+  @Username
   private String username;
 
+  @Password
   private String password;
+
+  @Roles
+  private String role;
 
   /**
    * @return String return the nome
@@ -76,6 +87,33 @@ public class Usuario extends PanacheEntityBase {
    */
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  /**
+   * @return String return the role
+   */
+  public String getRole() {
+      return role;
+  }
+
+  /**
+   * @param role the role to set
+   */
+  public void setRole(String role) {
+      this.role = role;
+  }
+
+  public static void adicionar(Usuario usuario){
+    usuario.password = BcryptUtil.bcryptHash(usuario.password);
+    usuario.role = validarUsername(usuario.username);
+    usuario.persist();
+  }
+
+
+  private static String validarUsername(String username){
+    if(username.equals("alura")){
+      return "admin";
+    } return "user";
   }
 
 }
